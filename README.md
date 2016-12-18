@@ -79,8 +79,14 @@ Source Files
     * Contains a list of positive words.
     
 -----
-Bugs
+Bugs and Limitations
 -----
+
+Capitalization matters
+
+Some things the robot will not understand
+
+Unable to handle certain user responses and will crash
 
 ------
 Citations
