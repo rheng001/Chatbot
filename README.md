@@ -22,31 +22,31 @@ User Guide
 
 Must have a directory/folder containing the following files:
 
-Chat.pyi
+	Chat.pyi
 
-Chat_memory.py
+	Chat_memory.py
 
-Chat_test.py
+	Chat_test.py
 
-ChatBotGUI.py
+	ChatBotGUI.py
 
-negative.txt
+	negative.txt
 
-positive.txt
+	positive.txt
 
 Using Python 3
 
 Install the following python modules: pip install 
 
-requests
+	requests
 
-tweepy
+	tweepy
 
-textblob
+	textblob
 
-textblob.download_corpora
+	textblob.download_corpora
 
-pytest
+	pytest
 
 After installing the following using any Python IDE or whatever you use to operate python and run the python file ChatBotGUI to start the program.
 
@@ -86,4 +86,4 @@ Bugs
 Citations
 ---
 
-Source code used and inspired by Liza Daly Brobot from https://github.com/lizadaly/brobot
+Source code used and inspired by Liza Daly's Brobot from https://github.com/lizadaly/brobot
