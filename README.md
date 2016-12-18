@@ -22,21 +22,30 @@ User Guide
 
 Must have a directory/folder containing the following files:
 
-Chat.py
+Chat.pyi
+
 Chat_memory.py
+
 Chat_test.py
+
 ChatBotGUI.py
+
 negative.txt
+
 positive.txt
 
 Using Python 3
 
-install the following python modules: pip install 
+Install the following python modules: pip install 
 
 requests
+
 tweepy
+
 textblob
+
 textblob.download_corpora
+
 pytest
 
 After installing the following using any Python IDE or whatever you use to operate python and run the python file ChatBotGUI to start the program.
