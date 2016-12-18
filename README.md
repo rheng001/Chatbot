@@ -4,10 +4,10 @@ UCR CS-170 Artificial Intelligence  Final Project
 ------------
 
 ------
-Chat Menui
+Chatbot Menu
 --------
 
-![Chat Menu](http://i.imgur.com/8LVSYu1.png)
+![Chat Menu](http://i.imgur.com/QRoJoYn.png)
 
 
 ----------
@@ -72,3 +72,9 @@ Source Files
 -----
 Bugs
 -----
+
+------
+Citations
+---
+
+Source code used and inspired by Liza Daly Brobot from https://github.com/lizadaly/brobot
