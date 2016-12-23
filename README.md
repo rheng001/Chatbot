@@ -84,18 +84,18 @@ Functions and Test Cases
 
 The following sentence structures are supported:
 
-*Who are you
-*Who am I
-*What time is it
+*	Who are you
+*	Who am I
+*	What time is it
 
-*Testing we are something
-	*I am good at ____ 
+*	Testing we are something
+	*	I am good at ____ 
 
-*Testing reference to bot
-	*You are ____
+*	Testing reference to bot
+	*	You are ___
 
-*Asking if bot knows about something
-	*Have you heard of a _____  
+*	Asking if bot knows about something
+	*	Have you heard of a ___  
     
 -----
 Bugs and Limitations
