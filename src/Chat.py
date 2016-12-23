@@ -56,10 +56,6 @@ COMMENTS_ABOUT_SELF = [
 # end
 
 
-class UnacceptableUtteranceException(Exception):
-    """Raise this (uncaught) exception if the response was going to trigger our blacklist"""
-    pass
-
 
 def starts_with_vowel(word):
     """Check for pronoun compability -- 'a' vs. 'an'"""
@@ -69,7 +65,7 @@ def starts_with_vowel(word):
 def broback(sentence):
     """Main program loop: select a response for the input sentence and return it"""
     resp = respond(sentence)
-    logger.info("Broback: respond to %s", sentence)
+    logger.info("CHATBOT: respond to %s", sentence)
     return resp
 
 
@@ -120,19 +116,50 @@ def find_noun(sent):
 
     return noun
 
+def find_pnoun(sent):
+    """Given a sentence, find the best candidate possessive noun"""
+
+    pnoun = None
+
+    if not pnoun:
+        for w, p in sent.pos_tags:
+            if p == 'PRP$':
+                pnoun = w
+                break
+    if pnoun:
+        logger.info("Found possessive noun: %s", pnoun)
+
+    return pnoun
+
+def find_prnoun(sent):
+
+    prnoun = None
+
+    if not prnoun:
+        for w, p in sent.pos_tags:
+            if p == 'NNP':
+                prnoun = w
+                break
+    if prnoun:
+        logger.info("Found proper noun: %s", prnoun)
+
+    return prnoun
+
 def find_adjective(sent):
     """Given a sentence, find the best candidate adjective."""
-    adj = None
-    for w, p in sent.pos_tags:
-        if p == 'JJ':  # This is an adjective
-            adj = w
-            break
-    return adj
+    adjective = None
+
+    if not adjective:
+        for w, p in sent.pos_tags:
+            if p == 'JJ':  # This is an adjective
+                adjective = w
+                break
+    return adjective
 
 
 
 # start:example-construct-response.py
-def construct_response(pronoun, noun, verb, adjective):
+def construct_response(pronoun, noun, pnoun, verb, adjective): #NO case match
     """No special cases matched, so we're going to try to construct a full sentence that uses as much
     of the user's input as possible"""
     resp = []
@@ -143,6 +170,9 @@ def construct_response(pronoun, noun, verb, adjective):
     # We always respond in the present tense, and the pronoun will always either be a passthrough
     # from the user, or 'you' or 'I', in which case we might need to change the tense for some
     # irregular verbs.
+
+
+
     if verb:
         verb_word = verb[0]
         if verb_word in ('be', 'am', 'is', "'m"):  # This would be an excellent place to use lemmas!
@@ -157,12 +187,17 @@ def construct_response(pronoun, noun, verb, adjective):
                 resp.append(noun)
             if pronoun.lower() == 'you' and personality == 50:
                 resp.append("Oh") ##Oh, sweet, etc
+
+
         if verb_word in ('went'): ###WORK IN progress #I went to dinner
             if pronoun.lower() == 'you':
                 resp.append("No way")
     if noun:
         pronoun = "an" if starts_with_vowel(noun) else "a" ####REPLACE THIS LATER
         #resp.append("Thats awesome me too") ## mess with this
+
+
+
 
     if personality >= 55:
         resp.append(random.choice(POS_END)) ##friend buddy, pal, etc
@@ -206,6 +241,20 @@ def check_for_comment_about_bot(pronoun, noun, adjective):
            # resp = random.choice(SELF_VERBS_WITH_ADJECTIVE).format(**{'adjective': adjective})
     return resp
 
+def check_for_name(pnoun, noun, prnoun, adjective):
+
+    resp = None
+
+    if (pnoun == 'my' or pnoun == 'My') and noun == 'name' and not prnoun:
+        resp = 'Oh hello ' + adjective
+
+    elif (pnoun == 'my' or pnoun == 'My') and noun == 'name' and not adjective:
+        resp = "Oh hello " + prnoun
+
+    return resp
+
+
+
 
 ###FIX CAPITALIZATION ERRORS
 def preprocess_text(sentence):
@@ -235,11 +284,15 @@ def respond(sentence):
     # Loop through all the sentences, if more than one. This will help extract the most relevant
     # response text even across multiple sentences (for example if there was no obvious direct noun
     # in one sentence
-    pronoun, noun, adjective, verb = find_candidate_parts_of_speech(parsed)
+    pronoun, noun, pnoun, prnoun, adjective, verb = find_candidate_parts_of_speech(parsed)
 
     # If we said something about the bot and used some kind of direct noun, construct the
     # sentence around that, discarding the other candidates
-    resp = check_for_comment_about_bot(pronoun, noun, adjective)
+
+    if pronoun == 'I':
+        resp = check_for_comment_about_bot(pronoun, noun, adjective)
+    else:
+        resp = check_for_name(pnoun, noun, prnoun, adjective)
 
     # If we just greeted the bot, we'll use a return greeting
     if not resp:
@@ -252,7 +305,7 @@ def respond(sentence):
         elif pronoun == 'I' and not verb:
             resp = random.choice(COMMENTS_ABOUT_SELF)
         else:
-            resp = construct_response(pronoun, noun, verb, adjective)
+            resp = construct_response(pronoun, noun, pnoun, prnoun, verb, adjective)
 
     # If we got through all that with nothing, use a random response
     if not resp:
@@ -269,15 +322,19 @@ def find_candidate_parts_of_speech(parsed):
     Returns a tuple of pronoun, noun, adjective, verb any of which may be None if there was no good match"""
     pronoun = None
     noun = None
+    pnoun = None
+    prnoun = None
     adjective = None
     verb = None
     for sent in parsed.sentences:
         pronoun = find_pronoun(sent)
         noun = find_noun(sent)
+        pnoun = find_pnoun(sent)
+        prnoun = find_prnoun(sent)
         adjective = find_adjective(sent)
         verb = find_verb(sent)
-    logger.info("Pronoun=%s, noun=%s, adjective=%s, verb=%s", pronoun, noun, adjective, verb)
-    return pronoun, noun, adjective, verb
+    logger.info("Pronoun=%s, noun=%s, pnoun=%s, prnoun=%s, adjective=%s, verb=%s", pronoun, noun, pnoun, prnoun, adjective, verb)
+    return pronoun, noun, pnoun, prnoun, adjective, verb
 
 def getUniqueNest(iterable):
     seen = set()
@@ -355,3 +412,4 @@ while saying != "end" or saying != "quit" or saying != "exit":
 
     else:
         What_is(saying)'''
+
