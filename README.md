@@ -77,6 +77,25 @@ Source Files
 *   **positive.txt**
 
     * Contains a list of positive words.
+
+-----
+Functions and Test Cases
+-----
+
+The following sentence structures are supported:
+
+*Who are you
+*Who am I
+*What time is it
+
+*Testing we are something
+	*I am good at ____ 
+
+*Testing reference to bot
+	*You are ____
+
+*Asking if bot knows about something
+	*Have you heard of a _____  
     
 -----
 Bugs and Limitations
