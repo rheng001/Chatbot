@@ -7,6 +7,9 @@ UCR CS-170 Artificial Intelligence  Final Project
 Chatbot Menu
 --------
 
+***I am now continuing the work of our Chatbot, alone and any further changes is done personally by me, Richard Heng***
+
+
 ![Chat Menu](http://i.imgur.com/QRoJoYn.png)
 
 
