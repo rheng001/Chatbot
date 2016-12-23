@@ -84,9 +84,10 @@ Functions and Test Cases
 
 The following sentence structures are supported:
 
-*	Who are you
+*	What time is it?
 *	Who am I
-*	What time is it
+*	Who are you
+
 
 *	Testing we are something
 	*	I am good at ____ 
@@ -103,7 +104,7 @@ Bugs and Limitations
 
 Capitalization matters
 
-Some things the robot will not understand
+Some phrasess the chatbot will not understand
 
 Unable to handle certain user responses and will crash
 
